@@ -9,11 +9,7 @@ public class Program {
 		
 		TronBike bike = player.getBike();
 		
-		bike.addCrashHandler(new CrashHandler() {
-			public void tronBikeCrashed(Player player) {
-				player.die();
-			}
-		});
+		bike.start();
 	}
 
 }

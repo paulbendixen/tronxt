@@ -2,13 +2,6 @@ package tronxt.core;
 
 public interface TronBike {
 	/**
-	 * Add the event handler that is to be invoked, when the bike crashes.
-	 * 
-	 * @param handler The event handler.
-	 */
-	void addCrashHandler(CrashHandler handler);
-	
-	/**
 	 * Makes the bikes go forward.
 	 */
 	void start();
