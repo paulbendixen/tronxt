@@ -39,12 +39,14 @@ public class SuperTronBike implements TronBike {
 	public void turnLeft() {
 		stop();
 		motorRight.rotate(ROTATE_ANGLE);
+		motorLeft.rotate(-ROTATE_ANGLE);
 		start();
 	}
 
 	public void turnRight() {
 		stop();
 		motorLeft.rotate(ROTATE_ANGLE);
+		motorRight.rotate(-ROTATE_ANGLE);
 		start();
 	}
 }
