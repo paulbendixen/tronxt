@@ -78,12 +78,16 @@ public class ControllerGUI {
 	}
 	
 	public void leftPressed() {
-		label.setText("Left pressed");
+		displayText("Left pressed");
 		controller.turnLeft();
 	}
 
 	public void rightPressed() {
-		label.setText("Right pressed");
+		displayText("Right pressed");
 		controller.turnRight();
+	}
+	
+	public void displayText(String text) {
+		label.setText(text);
 	}
 }
