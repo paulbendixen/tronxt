@@ -8,6 +8,10 @@ public abstract class AbstractPlayer implements Player {
 		return bike;
 	}
 	
+	public void register() {
+		
+	}
+	
 	public void die()
 	{
 		// Play music, non blocking
