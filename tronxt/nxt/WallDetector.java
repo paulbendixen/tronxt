@@ -1,18 +1,16 @@
 package tronxt.nxt;
 
-import tronxt.core.*;
 import lejos.nxt.*;
 
 public class WallDetector extends Thread {
 
 	private LightSensor lightSensor;
 	private CrashHandler handler;
-	private BTControlledPlayer player;
 	private int threshold;
 	
-	public WallDetector(SensorPort lightSensorPort, BTControlledPlayer player) {
-		this.player = player;
+	public WallDetector(SensorPort lightSensorPort, CrashHandler handler) {
 		lightSensor = new LightSensor(lightSensorPort);
+		this.handler = handler;
 		configure();
 	}
 	
@@ -44,12 +42,8 @@ public class WallDetector extends Thread {
 		Button.ENTER.waitForPressAndRelease();
 	}
 	
-	public void addCrashHandler(CrashHandler handler) {
-		this.handler = handler;
-	}
-
 	public void run() {
 		while (lightSensor.getLightValue() < threshold);
-		handler.tronBikeCrashed(player);
+		handler.tronBikeCrashed();
 	}
 }

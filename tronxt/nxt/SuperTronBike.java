@@ -12,26 +12,35 @@ public class SuperTronBike implements TronBike {
 	private Motor motorLeft = Motor.B;
 	private Bumper bumper;
 	private WallDetector wallDetector;
+	private final TronBike bike = this;
 	
-	public SuperTronBike(BTControlledPlayer player) {
-		bumper = new Bumper(SensorPort.S1, SensorPort.S2, player);
-		wallDetector = new WallDetector(SensorPort.S3, player);
+	public SuperTronBike() {
+		CrashHandler handler = new CrashHandler() {
+			
+			@Override
+			public void tronBikeCrashed() {
+				bike.stop();
+			}
+		};
+		bumper = new Bumper(SensorPort.S1, SensorPort.S2, handler);
+		wallDetector = new WallDetector(SensorPort.S3, handler);
 		
 		motorRight.setSpeed(SPEED);
 		motorLeft.setSpeed(SPEED);
 	}
 
-	public void addCrashHandler(CrashHandler handler) {
-		bumper.addCrashHandler(handler);
-		wallDetector.addCrashHandler(handler);
-	}
-
 	public void start() {
+		bumper.start();
+		wallDetector.start();
+		
 		motorRight.forward();
 		motorLeft.forward();
 	}
 
 	public void stop() {
+		bumper.interrupt();
+		wallDetector.interrupt();
+		
 		motorRight.stop();
 		motorLeft.stop();
 	}

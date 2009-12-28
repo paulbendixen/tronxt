@@ -8,5 +8,11 @@ public class HumanControlledPlayer extends AbstractPlayer {
 		
 	}
 	
-	
+	public void turnLeft() {
+		
+	}
+
+	public void turnRight() {
+		
+	}
 }
