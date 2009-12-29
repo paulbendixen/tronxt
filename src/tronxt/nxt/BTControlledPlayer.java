@@ -1,33 +1,37 @@
 package tronxt.nxt;
 
 import lejos.nxt.LCD;
-import lejos.nxt.comm.*;
 import tronxt.core.*;
 
 public class BTControlledPlayer extends AbstractPlayer {
 
 	public BTControlledPlayer(String name) {
-		super(name, new SuperTronBike());
+		super(name);
+		bike = new SuperTronBike(this);
 	}
 	
-	@Override
-	public void register() {
-		LCD.clearDisplay();
-		LCD.drawString("Wait for connetion",0,0);
-		BTConnection btc = Bluetooth.waitForConnection();
-		btc.setIOMode(NXTConnection.RAW);
-		
+	public void start() {
+		bike.start();
 		
 		int len = 1;
-		byte[] buffer = {'a'};
-		while (buffer[0] != 'q') {
-			btc.read(buffer, len);
+		byte[] buffer = new byte[1];
+		while (true) {
+			conn.read(buffer, len);
+			
+			switch(buffer[0]) {
+			case 'l': //Turn left
+				bike.turnLeft();
+				break;
+			case 'r': //Turn right
+				bike.turnRight();
+				break;
+			case 'q': //Quit game
+				conn.close();
+				System.exit(0);
+			}
+
 			LCD.clearDisplay();
-			LCD.drawString(buffer.toString(), 0, 0);
+			LCD.drawChar((char)buffer[0], 0, 0, false);
 		}
-		
-		
-		btc.close();
 	}
-		
 }

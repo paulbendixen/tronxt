@@ -8,6 +8,7 @@ public interface Player {
 	
 	void register();
 	
+	void start();
 	void die();
 	void win();
 }

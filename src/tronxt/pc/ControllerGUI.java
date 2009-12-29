@@ -21,11 +21,24 @@ public class ControllerGUI {
 		Box box = new Box(BoxLayout.Y_AXIS);
 		frame.add(box);
 		
-		JPanel buttonPanel = new JPanel();
-		box.add(buttonPanel);
+		JPanel connectionPanel = new JPanel();
+		box.add(connectionPanel);
+		
+		JButton connect = new JButton("Connect");
+		connectionPanel.add(connect);
+		connect.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.connect();
+			}
+		});
+		
+		JPanel steeringPanel = new JPanel();
+		box.add(steeringPanel);
 
 		JButton left = new JButton("Left");
-		buttonPanel.add(left);
+		steeringPanel.add(left);
 		left.addActionListener(new ActionListener() { 
 			
 			@Override
@@ -35,7 +48,7 @@ public class ControllerGUI {
 		});
 		
 		JButton right = new JButton("Right");
-		buttonPanel.add(right);
+		steeringPanel.add(right);
 		right.addActionListener(new ActionListener() { 
 			
 			@Override
@@ -54,11 +67,15 @@ public class ControllerGUI {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				switch(e.getKeyCode()) {
+				case KeyEvent.VK_LEFT:
 					gui.leftPressed();
-				}
-				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					break;
+				case KeyEvent.VK_RIGHT:
 					gui.rightPressed();
+					break;
+				case KeyEvent.VK_ESCAPE:
+					controller.exit();
 				}
 			}
 
@@ -68,6 +85,7 @@ public class ControllerGUI {
 			@Override
 			public void keyTyped(KeyEvent e) {}
 		};
+		connect.addKeyListener(arrowKeys);
 		left.addKeyListener(arrowKeys);
 		right.addKeyListener(arrowKeys);
 		
