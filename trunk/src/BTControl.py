@@ -2,6 +2,22 @@
 import sys
 from bluetooth import *
 
+class BTSearch:
+	def __init__(self):
+		pass
+
+	def search(self,name=None):
+		addresses = discover_devices()
+		#if len(addresses) == 0:
+		#	return None
+		names = []
+		for adr in addresses:
+			names.append(lookup_name(adr))
+			if name != None and name == names[-1]:
+				return adr
+
+		return zip(addresses,names)
+
 class BTControl:
 	_sock = None
 	def __init__(self,address = None):
@@ -22,8 +38,10 @@ class BTControl:
 if __name__ == "__main__":
 	helptext = """
 To run this as a program,
-use either the adress of the NXT brick you are trying to reach or nothing at all.
+use either the adress of the NXT brick you are trying to reach,
+the name of the brickor nothing at all.
 The adress should be formatted as "XX:XX:XX:XX:XX:XX"
+The name should not have any ":" in it
 """
 	if len(sys.argv) > 2:
 		print(helptext)
@@ -33,8 +51,19 @@ The adress should be formatted as "XX:XX:XX:XX:XX:XX"
 		print("Connecting using default port")
 		btc = BTControl()
 	if len(sys.argv) == 2:
-		print("Connecting using specified port",sys.argv[1])
-		btc = BTControl(sys.argv[1])
+		if ':' in sys.argv[1]:
+			print("Connecting using specified port",sys.argv[1])
+			btc = BTControl(sys.argv[1])
+		else:
+			print("Connecting to brick with name ",sys.argv[1])
+			bts = BTSearch()
+			address = bts.search(sys.argv[1])
+			if type(address) == type('00:00'):
+				btc = BTControl(address)
+			else:
+				print "No bluetooth device found with name ", sys.argv[1]
+				sys.exit()
+
 	for c in ('a','b','c','q'):
 		btc.transmit(c)
 

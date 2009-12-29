@@ -11,6 +11,7 @@
 	<property name="program" value="TroNXT" />
 	<property name="binary" value="${program}.nxj" />
 	<property name="jarfile" value="${program}.jar" />
+	<property name="nxt.address" value="00:16:53:03:5D:96" />
 
 	<!-- deletes class files -->
 	<target name="clean" description="clean up all generated files">
@@ -82,6 +83,29 @@
 		</java>
 	</target>
 	
+
+	<target name="uploadspecific" depends="link" description="upload the binary">
+		<java classname="lejos.pc.tools.NXJUpload" fork="true">
+			<jvmarg value="-Djava.library.path=${nxj.library.path}" />
+			<jvmarg value="-Dnxj.home=${nxj.home}" />
+			<arg value="${binary}" />
+			<arg value="-r" />
+			<arg value="-b" />
+			<arg value="-d" />
+			<arg value="${nxt.address}" />
+			<classpath>
+				<pathelement location="${nxj.jtools.jar}" />
+				<pathelement location="${nxj.pctools.jar}" />
+				<pathelement location="${nxj.pccomm.jar}" />
+				<pathelement location="${nxj.commons.jar}" />
+				<pathelement location="${nxj.bcel.jar}" />
+				<pathelement location="${nxj.bluecove.jar}" />
+				<pathelement location="${nxj.bluecove-gpl.jar}" />
+			</classpath>
+		</java>
+		<java jar="${jarfile}" fork="true" />
+	</target>
+
 	<target name="run" depends="link" description="run the pc program">
 		<java jar="${jarfile}" fork="true" />
 	</target>

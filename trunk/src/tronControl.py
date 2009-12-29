@@ -47,6 +47,8 @@ class MainWindow(QtGui.QWidget):
 		self.setLayout(vbox)
 		self.resize(250,75)
 
+		self._btc.transmit('s')
+
 	def __del__(self):
 		self._btc.transmit('q')
 
