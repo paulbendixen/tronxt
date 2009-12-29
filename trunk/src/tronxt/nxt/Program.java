@@ -33,10 +33,6 @@ public class Program {
 		
 		player.register();
 		
-		LCD.clearDisplay();
-		LCD.drawString("Playing...", 0, 0);
-		LCD.drawString("ESCAPE to exit", 0, 8);
-
-		while (!Button.ESCAPE.isPressed()) {}
+		player.start();
 	}
 }

@@ -28,7 +28,13 @@
 			</bootclasspath>
 		</javac>
 		<javac srcdir="${src}" destdir="${bin}" excludes="tronxt/nxt/**">
-			<classpath location="${nxj.pccomm.jar}" />
+            <classpath location="${nxj.jtools.jar}"/>
+            <classpath location="${nxj.pctools.jar}"/>
+          	<classpath location="${nxj.pccomm.jar}"/>
+      		<classpath location="${nxj.commons.jar}"/>
+      		<classpath location="${nxj.bcel.jar}"/>
+          	<classpath location="${nxj.bluecove.jar}"/>
+          	<classpath location="${nxj.bluecove-gpl.jar}"/>
 		</javac>
 	</target>
 
@@ -54,7 +60,7 @@
 		<jar basedir="${bin}" excludes="tronxt/nxt/**" destfile="${jarfile}">
 			<manifest>
 				<attribute name="Main-Class" value="tronxt.pc.Program" />
-				<attribute name="Class-Path" value="${nxj.pccomm.jar}" />
+				<attribute name="Class-Path" value="${nxj.jtools.jar} ${nxj.pctools.jar} ${nxj.pccomm.jar} ${nxj.commons.jar} ${nxj.bcel.jar} ${nxj.bluecove.jar} ${nxj.bluecove-gpl.jar}"/>
 			</manifest>
 		</jar>
 	</target>
