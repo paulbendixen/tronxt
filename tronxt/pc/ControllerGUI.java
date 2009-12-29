@@ -16,6 +16,7 @@ public class ControllerGUI {
 	
 	public void show() {
 		JFrame frame = new JFrame("TroNXT");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Box box = new Box(BoxLayout.Y_AXIS);
 		frame.add(box);
