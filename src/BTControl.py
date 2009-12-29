@@ -19,21 +19,27 @@ class BTSearch:
 		return zip(addresses,names)
 
 class BTControl:
+	_connected = False
 	_sock = None
 	def __init__(self,address = None):
 		# I really should do some validation around here
 	
-		if address == None:
-			address = '00:16:53:04:00:1C'
+		if address != None:
+			self.connect(address)
+
+	def connect(self,address):
 		self._sock = BluetoothSocket(RFCOMM)
-		self._sock.connect((address,1))
+		if (self._sock.connect((address,1))):
+			self._connected = true
+		
 	
 	def transmit(self,char):
-		if len(char) == 1:
+		if len(char) == 1 and self._connected == True:
 			self._sock.send(char)
 
 	def __del__(self):
-		self._sock.close()
+		if self._connected:
+			self._sock.close()
 	
 if __name__ == "__main__":
 	helptext = """
@@ -47,19 +53,20 @@ The name should not have any ":" in it
 		print(helptext)
 		sys.exit()
 	#start up a default socket and send a, b, c, q
+	btc = BTControl()
 	if len(sys.argv) == 1:
 		print("Connecting using default port")
-		btc = BTControl()
+		btc.connect('00:16:53:03:5D:96')
 	if len(sys.argv) == 2:
 		if ':' in sys.argv[1]:
 			print("Connecting using specified port",sys.argv[1])
-			btc = BTControl(sys.argv[1])
+			btc.connect(sys.argv[1])
 		else:
 			print("Connecting to brick with name ",sys.argv[1])
 			bts = BTSearch()
 			address = bts.search(sys.argv[1])
 			if type(address) == type('00:00'):
-				btc = BTControl(address)
+				btc.connect(address)
 			else:
 				print "No bluetooth device found with name ", sys.argv[1]
 				sys.exit()

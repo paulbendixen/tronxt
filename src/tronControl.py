@@ -8,21 +8,27 @@ import sys
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from BTControl import *
-
-class DeadButton(QtGui.QPushButton):
-	def __init__(self,text,parent=None):
-		QtGui.QPushButton.__init__(self,text,parent)
-	
-	def keyPressEvent(self,event):
-		pass
+from BTSelect import *
 
 class MainWindow(QtGui.QWidget):
 	_btc = None
 	def __init__(self,address = None, parent = None):
 		QtGui.QWidget.__init__(self,parent)
 
-		self._btc = BTControl(address)
+		self._btc = BTControl()
+		if address == None:
+			bts = BTSearch()
+			nxts = bts.search()
+			btsel = BTSelect(nxts)
+			if btsel.exec_():
+				address = str(btsel.address())
+			else:
+				QtGui.QMessageBox.warning(self,"No Selected NXTs","No address selected, program will be shut down")
+				sys.exit(-1)
 
+
+
+		self._btc = BTControl(address)
 		self.setWindowTitle('TroNXT')
 
 		left = QtGui.QPushButton('Left')
