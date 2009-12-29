@@ -47,7 +47,6 @@ public class MSGSys
 			case 'l':
 				mode = newMode;
 				return true;
-				break;
 			default:
 				return false;
 		}
@@ -74,6 +73,7 @@ public class MSGSys
 	 */
 	public static int write(String message)
 	{
+		return 0;
 	}
 
 	/**
@@ -98,5 +98,6 @@ public class MSGSys
 			default:
 				return -1;
 		}
+		return 0;
 	}
 }
