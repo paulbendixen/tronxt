@@ -54,7 +54,6 @@ public class ControllerGUI {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				label.setText("key event...");
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					gui.leftPressed();
 				}

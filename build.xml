@@ -27,7 +27,9 @@
 				<pathelement location="${nxj.classes.jar}" />
 			</bootclasspath>
 		</javac>
-		<javac srcdir="${src}" destdir="${bin}" excludes="tronxt/nxt/**" />
+		<javac srcdir="${src}" destdir="${bin}" excludes="tronxt/nxt/**">
+			<classpath location="${nxj.pccomm.jar}" />
+		</javac>
 	</target>
 
 	<target name="link" depends="compile" description="link the binary">
@@ -52,6 +54,7 @@
 		<jar basedir="${bin}" excludes="tronxt/nxt/**" destfile="${jarfile}">
 			<manifest>
 				<attribute name="Main-Class" value="tronxt.pc.Program" />
+				<attribute name="Class-Path" value="${nxj.pccomm.jar}" />
 			</manifest>
 		</jar>
 	</target>

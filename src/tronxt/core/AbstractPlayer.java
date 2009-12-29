@@ -3,15 +3,29 @@ package tronxt.core;
 public abstract class AbstractPlayer implements Player {
 
 	protected TronBike bike;
+	protected String name;
 	
+	protected AbstractPlayer(String name, TronBike bike) {
+		this.bike = bike;
+		this.name = name;
+	}
+	
+	@Override
 	public TronBike getBike() {
 		return bike;
 	}
 	
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	@Override
 	public void register() {
 		
 	}
 	
+	@Override
 	public void die()
 	{
 		// Play music, non blocking
@@ -22,6 +36,7 @@ public abstract class AbstractPlayer implements Player {
 		bike.stop();
 	}
 	
+	@Override
 	public void win()
 	{
 		bike.stop();
