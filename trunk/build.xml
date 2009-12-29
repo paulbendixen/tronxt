@@ -1,4 +1,4 @@
-<project name="TroNXT" default="upload">
+<project name="TroNXT" default="uploadandrun">
 	<description>
     	TroNXT build file
     </description>
@@ -93,6 +93,6 @@
 				<pathelement location="${nxj.bluecove-gpl.jar}" />
 			</classpath>
 		</java>
-		<ant target="run" />
+		<java jar="${jarfile}" fork="true" />
 	</target>
 </project>
