@@ -1,0 +1,98 @@
+<project name="TroNXT" default="upload">
+	<description>
+    	TroNXT build file
+    </description>
+
+	<!-- set properties for this build -->
+	<property environment="env" />
+	<property file="lejos.properties" />
+	<property name="src" location="src" />
+	<property name="bin" location="bin" />
+	<property name="program" value="TroNXT" />
+	<property name="binary" value="${program}.nxj" />
+	<property name="jarfile" value="${program}.jar" />
+
+	<!-- deletes class files -->
+	<target name="clean" description="clean up all generated files">
+		<delete dir="${bin}" />
+		<delete file="${binary}" />
+		<delete file="${jarfile}" />
+	</target>
+
+	<target name="compile" depends="clean" description="compile the source">
+		<!-- Compile the java code from ${src}  -->
+		<mkdir dir="${bin}" />
+		<javac srcdir="${src}" destdir="${bin}" excludes="tronxt/pc/**">
+			<bootclasspath>
+				<pathelement location="${nxj.classes.jar}" />
+			</bootclasspath>
+		</javac>
+		<javac srcdir="${src}" destdir="${bin}" excludes="tronxt/nxt/**" />
+	</target>
+
+	<target name="link" depends="compile" description="link the binary">
+		<!-- Link the binary and create a signature file -->
+		<java classname="js.tinyvm.TinyVM">
+			<arg value="--bootclasspath" />
+			<arg path="${nxj.classes.jar}" />
+			<arg value="--classpath" />
+			<arg path="${bin}" />
+			<arg value="--writeorder" />
+			<arg value="LE" />
+			<arg value="tronxt.nxt.Program" />
+			<arg value="-o" />
+			<arg value="${binary}" />
+			<arg value="-v" />
+			<classpath>
+				<pathelement location="${nxj.jtools.jar}" />
+				<pathelement location="${nxj.commons.jar}" />
+				<pathelement location="${nxj.bcel.jar}" />
+			</classpath>
+		</java>
+		<jar basedir="${bin}" excludes="tronxt/nxt/**" destfile="${jarfile}">
+			<manifest>
+				<attribute name="Main-Class" value="tronxt.pc.Program" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="upload" depends="link" description="upload the binary">
+		<java classname="lejos.pc.tools.NXJUpload" fork="true">
+			<jvmarg value="-Djava.library.path=${nxj.library.path}" />
+			<jvmarg value="-Dnxj.home=${nxj.home}" />
+			<arg value="${binary}" />
+			<classpath>
+				<pathelement location="${nxj.jtools.jar}" />
+				<pathelement location="${nxj.pctools.jar}" />
+				<pathelement location="${nxj.pccomm.jar}" />
+				<pathelement location="${nxj.commons.jar}" />
+				<pathelement location="${nxj.bcel.jar}" />
+				<pathelement location="${nxj.bluecove.jar}" />
+				<pathelement location="${nxj.bluecove-gpl.jar}" />
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="run" depends="link" description="run the pc program">
+		<java jar="${jarfile}" fork="true" />
+	</target>
+
+	<target name="uploadandrun" depends="link" description="upload and run the binary">
+		<java classname="lejos.pc.tools.NXJUpload" fork="true">
+			<jvmarg value="-Djava.library.path=${nxj.library.path}" />
+			<jvmarg value="-Dnxj.home=${nxj.home}" />
+			<arg value="${binary}" />
+			<arg value="-r" />
+			<classpath>
+				<pathelement location="${nxj.jtools.jar}" />
+				<pathelement location="${nxj.pctools.jar}" />
+				<pathelement location="${nxj.pccomm.jar}" />
+				<pathelement location="${nxj.commons.jar}" />
+				<pathelement location="${nxj.bcel.jar}" />
+				<pathelement location="${nxj.bluecove.jar}" />
+				<pathelement location="${nxj.bluecove-gpl.jar}" />
+			</classpath>
+		</java>
+		<ant target="run" />
+	</target>
+</project>
