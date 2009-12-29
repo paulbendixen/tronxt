@@ -8,18 +8,20 @@ public class Program {
 
 	public static void main(String[] args) {
 		
+		LCD.clearDisplay();
 		LCD.drawString("Choose type:", 0, 0);
 		LCD.drawString("< : CPU Player", 0, 1);
 		LCD.drawString("> : Human Player", 0, 2);
 		
 		Player player = null;
+		String name = "Player1";
 		while (player == null) {
 			switch (Button.waitForPress()) {
 			case Button.ID_LEFT:
-				player = new CPUControlledPlayer();
+				player = new CPUControlledPlayer(name);
 				break;
 			case Button.ID_RIGHT:
-				player = new BTControlledPlayer();
+				player = new BTControlledPlayer(name);
 				break;
 			case Button.ID_ESCAPE:
 				return;
@@ -30,6 +32,10 @@ public class Program {
 		}
 		
 		player.register();
+		
+		LCD.clearDisplay();
+		LCD.drawString("Playing...", 0, 0);
+		LCD.drawString("ESCAPE to exit", 0, 8);
 
 		while (!Button.ESCAPE.isPressed()) {}
 	}
