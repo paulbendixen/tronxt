@@ -7,6 +7,9 @@ from PyQt4 import QtGui
 # This is a dialog to open when looking for an NXT to connect to
 
 class BTSelect(QtGui.QDialog):
+	"""GUI for selecting NXTs, the items parameter should be a list of touples,
+	containing addresses in the first entry and names in the second
+	If accepted the address of the selected NXT can be found using the self.address() function"""
 	def __init__(self,items = [()],parent = None):
 		QtGui.QDialog.__init__(self,parent)
 
@@ -31,6 +34,7 @@ class BTSelect(QtGui.QDialog):
 		self.setLayout(self.vbox)
 		self.connect(ok,QtCore.SIGNAL('clicked()'),self.accept)
 		self.connect(cancel,QtCore.SIGNAL('clicked()'),self.reject)
+		#move populate out of the init loop so that a repeat search can be made later on
 		self.populate()
 
 

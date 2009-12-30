@@ -3,10 +3,15 @@ import sys
 from bluetooth import *
 
 class BTSearch:
+	"""Search module for bluetooth connections"""
 	def __init__(self):
 		pass
 
 	def search(self,name=None):
+		"""When called with no name parameter will return a list of tuples with
+		adresses in the first entry and names in the second.
+		When called with the name parameter as a string will either return the address of 
+		the named device (as a string) or if it was not found, the same as no name """
 		addresses = discover_devices()
 		#if len(addresses) == 0:
 		#	return None
@@ -19,21 +24,26 @@ class BTSearch:
 		return zip(addresses,names)
 
 class BTControl:
+	"""Class for connecting to a Bluetooth device"""
 	_connected = False
 	_sock = None
 	def __init__(self,address = None):
+		"""If called with an adress will attempt to connect to the given address
+		otherwise will just create the object"""
 		# I really should do some validation around here
 	
 		if address != None:
 			self.connect(address)
 
 	def connect(self,address):
+		"""Will try to connect to the given address, using an RFCOMM socket"""
 		self._sock = BluetoothSocket(RFCOMM)
 		if (self._sock.connect((address,1))):
 			self._connected = true
 		
 	
 	def transmit(self,char):
+	"""If a successfull connect has been executed will send one char over the RFCOMM socket"""
 		if len(char) == 1 and self._connected == True:
 			self._sock.send(char)
 
