@@ -22,35 +22,40 @@ public class SuperTronBike implements TronBike {
 			}
 		};
 		bumper = new Bumper(SensorPort.S1, SensorPort.S2, handler);
-		bumper.start();
 		wallDetector = new WallDetector(SensorPort.S3, handler);
-		wallDetector.start();
 		
 		motorRight.setPower(POWER);
 		motorLeft.setPower(POWER);
 	}
 
 	public void start() {
+		bumper.start();
+		wallDetector.start();
+		forward();
+	}
+	
+	private void forward() {
 		motorRight.forward();
 		motorLeft.forward();
 	}
 
 	public void stop() {
+		bumper.interrupt();
+		wallDetector.interrupt();
+		
 		motorRight.stop();
 		motorLeft.stop();
 	}
 
 	public void turnLeft() {
-		stop();
 		motorRight.rotate(ROTATE_ANGLE, true);
 		motorLeft.rotate(-ROTATE_ANGLE);
-		start();
+		forward();
 	}
 
 	public void turnRight() {
-		stop();
 		motorLeft.rotate(ROTATE_ANGLE, true);
 		motorRight.rotate(-ROTATE_ANGLE);
-		start();
+		forward();
 	}
 }

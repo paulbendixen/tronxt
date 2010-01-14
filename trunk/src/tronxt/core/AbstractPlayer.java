@@ -36,13 +36,13 @@ public abstract class AbstractPlayer implements Player {
 		LCD.clearDisplay();
 		LCD.drawString("Connected",0,0);
 		
-		int len = 1;
 		byte[] buffer = new byte[1];
 		while (true) {
-			conn.read(buffer, len);
+			conn.read(buffer, 1);
 			
 			switch(buffer[0]) {
 			case 's': //Start game
+				conn.write(new byte[] {'o'}, 1);
 				return;
 			case 'q': //Quit game
 				conn.close();
@@ -54,6 +54,18 @@ public abstract class AbstractPlayer implements Player {
 	@Override
 	public void die()
 	{
+		LCD.clearDisplay();
+		LCD.drawString("DD  EEE AAAA DD ", 0, 0);
+		LCD.drawString("D D E   A  A D D", 0, 1);
+		LCD.drawString("D D E   A  A D D", 0, 2);
+		LCD.drawString("D D EE  AAAA D D", 0, 3);
+		LCD.drawString("D D EE  AAAA D D", 0, 4);
+		LCD.drawString("D D E   A  A D D", 0, 5);
+		LCD.drawString("D D E   A  A D D", 0, 6);
+		LCD.drawString("DD  EEE A  A DD ", 0, 7);
+		
+		conn.write(new byte[] {'d'}, 1);
+		
 		// Play music, non blocking
 		for (int i = 0; i < 4*3;i++)
 		{
