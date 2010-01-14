@@ -24,10 +24,10 @@ public class CPUControlledPlayer extends AbstractPlayer {
 		};
 		
 		detector = new WallDetector(SensorPort.S4, handler);
-		detector.start();
 	}
 	
 	public void start() {
+		detector.start();
 		bike.start();
 	}
 }

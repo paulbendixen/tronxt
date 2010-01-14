@@ -13,6 +13,24 @@ public class HumanControlledPlayer {
 		gui = new ControllerGUI(this);
 		gui.show();
 	}
+	
+	private void sendCommand(char command) {
+		try {
+			conn.getNXTComm().write(new byte[] {(byte) command});
+			switch(conn.getNXTComm().read()[0]) {
+			case 'o': //OK
+				break;
+			case 'd': //Dead
+				gui.displayText("You're dead!");
+				break;
+			case 'w': //Winner
+				gui.displayText("You are the champion");
+				break;
+			}
+		} catch (IOException e) {
+			gui.displayText(e.getMessage());
+		}
+	}
 
 	public void connect() {
 		gui.displayText("Connecting to NXT.");
@@ -27,21 +45,15 @@ public class HumanControlledPlayer {
 		
 		gui.displayText("Connected to "+ conn.getNXTInfo().name);
 		
-		try {
-			conn.getNXTComm().write(new byte[] {'s'});
-		} catch (IOException e) {}
+		sendCommand('s');
 	}
 	
 	public void turnLeft() {
-		try {
-			conn.getNXTComm().write(new byte[] {'l'});
-		} catch (IOException e) {}
+		sendCommand('l');
 	}
 
 	public void turnRight() {
-		try {
-			conn.getNXTComm().write(new byte[] {'r'});
-		} catch (IOException e) {}
+		sendCommand('r');
 	}
 	
 	public void exit() {
@@ -49,7 +61,7 @@ public class HumanControlledPlayer {
 		try {
 			conn.getNXTComm().write(new byte[] {'q'});
 			conn.close();
-		} catch (IOException e) {}
+		} catch (Exception e) {}
 		
 		System.exit(0);
 	}
