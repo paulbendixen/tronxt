@@ -1,6 +1,7 @@
 package tronxt.core;
 
 import lejos.nxt.LCD;
+import lejos.nxt.Sound;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
@@ -30,7 +31,7 @@ public abstract class AbstractPlayer implements Player {
 		LCD.clearDisplay();
 		LCD.drawString("Waiting for ", 0, 0);
 		LCD.drawString("connection  ", 0, 1);
-		conn = Bluetooth.waitForConnection();
+		conn = Bluetooth.waitForConnection(0, NXTConnection.RAW);
 		conn.setIOMode(NXTConnection.RAW);
 		
 		LCD.clearDisplay();
@@ -43,6 +44,7 @@ public abstract class AbstractPlayer implements Player {
 			switch(buffer[0]) {
 			case 's': //Start game
 				conn.write(new byte[] {'o'}, 1);
+				win();
 				return;
 			case 'q': //Quit game
 				conn.close();
@@ -67,7 +69,7 @@ public abstract class AbstractPlayer implements Player {
 		conn.write(new byte[] {'d'}, 1);
 		
 		// Play music, non blocking
-		for (int i = 0; i < 4*3;i++)
+		for (int i = 0; i <= 4; i++)
 		{
 			bike.turnRight();
 		}
@@ -79,5 +81,13 @@ public abstract class AbstractPlayer implements Player {
 	{
 		bike.stop();
 		// Play victory music
+		LCD.drawString("20", 0, 0);
+		Sound.playNote(Sound.FLUTE, 20, 1000);
+		LCD.drawString("200", 0, 1);
+		Sound.playNote(Sound.FLUTE, 200, 1000);
+		LCD.drawString("2000", 0, 2);
+		Sound.playNote(Sound.FLUTE, 2000, 1000);
+		LCD.drawString("10000", 0, 3);
+		Sound.playNote(Sound.FLUTE, 10000, 1000);
 	}
 }

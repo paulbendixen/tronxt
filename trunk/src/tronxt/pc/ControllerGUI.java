@@ -16,23 +16,10 @@ public class ControllerGUI {
 	
 	public void show() {
 		JFrame frame = new JFrame("TroNXT");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		Box box = new Box(BoxLayout.Y_AXIS);
 		frame.add(box);
-		
-		JPanel connectionPanel = new JPanel();
-		box.add(connectionPanel);
-		
-		JButton connect = new JButton("Connect");
-		connectionPanel.add(connect);
-		connect.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.connect();
-			}
-		});
 		
 		JPanel steeringPanel = new JPanel();
 		box.add(steeringPanel);
@@ -85,7 +72,6 @@ public class ControllerGUI {
 			@Override
 			public void keyTyped(KeyEvent e) {}
 		};
-		connect.addKeyListener(arrowKeys);
 		left.addKeyListener(arrowKeys);
 		right.addKeyListener(arrowKeys);
 		
