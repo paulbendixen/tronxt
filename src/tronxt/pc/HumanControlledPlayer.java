@@ -32,12 +32,14 @@ public class HumanControlledPlayer {
 		}
 	}
 
-	public void connect() {
+	public void connect(NXTInfo info) {
 		gui.displayText("Connecting to NXT.");
 		conn = new NXTConnector();
 
 		// Connect to any NXT over Bluetooth
 		boolean connected = conn.connectTo("btspp://");
+		//boolean connected = conn.connectTo(info, NXTComm.RAW);
+		
 		if (!connected) {
 			gui.displayText("Failed to connect to any NXT");
 			return;
