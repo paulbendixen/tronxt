@@ -43,7 +43,7 @@ class BTControl:
 		
 	
 	def transmit(self,char):
-	"""If a successfull connect has been executed will send one char over the RFCOMM socket"""
+		"""If a successfull connect has been executed will send one char over the RFCOMM socket"""
 		if len(char) == 1 and self._connected == True:
 			self._sock.send(char)
 
