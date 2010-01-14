@@ -11,7 +11,7 @@
 	<property name="program" value="TroNXT" />
 	<property name="binary" value="${program}.nxj" />
 	<property name="jarfile" value="${program}.jar" />
-	<property name="nxt.address" value="00:16:53:03:5D:96" />
+	<property name="nxt.address" value="00:16:53:04:00:1C" />
 
 	<!-- deletes class files -->
 	<target name="clean" description="clean up all generated files">
