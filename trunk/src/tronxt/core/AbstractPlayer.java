@@ -44,7 +44,6 @@ public abstract class AbstractPlayer implements Player {
 			switch(buffer[0]) {
 			case 's': //Start game
 				conn.write(new byte[] {'o'}, 1);
-				win();
 				return;
 			case 'q': //Quit game
 				conn.close();
@@ -69,7 +68,7 @@ public abstract class AbstractPlayer implements Player {
 		conn.write(new byte[] {'d'}, 1);
 		
 		// Play music, non blocking
-		for (int i = 0; i <= 4; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			bike.turnRight();
 		}
@@ -80,14 +79,20 @@ public abstract class AbstractPlayer implements Player {
 	public void win()
 	{
 		bike.stop();
+
+		LCD.clearDisplay();
+		LCD.drawString("W  W  W III N  N", 0, 0);
+		LCD.drawString("W  W  W  I  N  N", 0, 1);
+		LCD.drawString("W  W  W  I  NN N", 0, 2);
+		LCD.drawString("W  W  W  I  NN N", 0, 3);
+		LCD.drawString("W  W  W  I  N NN", 0, 4);
+		LCD.drawString("W  W  W  I  N NN", 0, 5);
+		LCD.drawString(" W W W   I  N  N", 0, 6);
+		LCD.drawString("  W W   III N  N", 0, 7);
+
 		// Play victory music
-		LCD.drawString("20", 0, 0);
-		Sound.playNote(Sound.FLUTE, 20, 1000);
-		LCD.drawString("200", 0, 1);
-		Sound.playNote(Sound.FLUTE, 200, 1000);
-		LCD.drawString("2000", 0, 2);
-		Sound.playNote(Sound.FLUTE, 2000, 1000);
-		LCD.drawString("10000", 0, 3);
-		Sound.playNote(Sound.FLUTE, 10000, 1000);
+		Sound.playNote(Sound.FLUTE, 500, 1000);
+		Sound.playNote(Sound.FLUTE, 700, 1000);
+		Sound.playNote(Sound.FLUTE, 900, 1000);
 	}
 }

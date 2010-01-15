@@ -18,7 +18,7 @@ public class PickerGUI {
 
 		Box box = new Box(BoxLayout.Y_AXIS);
 		frame.add(box);
-		
+        
 		list = new JList();
 		box.add(list);
 		
