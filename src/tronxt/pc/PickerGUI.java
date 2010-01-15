@@ -54,6 +54,7 @@ public class PickerGUI {
 	
 	public void populateList() {
 		NXTConnectionManager connectionManager = new NXTConnectionManager();
+		
 		NXTInfo[] infos = connectionManager.search();
 		
 		DefaultListModel model = new DefaultListModel();
