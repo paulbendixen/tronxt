@@ -45,7 +45,10 @@ class BTSelect(QtGui.QDialog):
 		#self.table.setHorzontalHeaderLabels(['Address','Name'])
 		for row,item in enumerate(self._items):
 			for col,val in enumerate(item):
-				self.table.setItem(row,col,QtGui.QTableWidgetItem(val))
+				try:
+					self.table.setItem(row,col,QtGui.QTableWidgetItem(val))
+				except:
+					print val
 	def address(self):
 		return self.retval
 

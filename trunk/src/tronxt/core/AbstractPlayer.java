@@ -48,6 +48,8 @@ public abstract class AbstractPlayer implements Player {
 			case 'q': //Quit game
 				conn.close();
 				System.exit(0);
+			default:
+				LCD.drawChar((char)buffer[0],0,0,false);
 			}
 		}
 	}

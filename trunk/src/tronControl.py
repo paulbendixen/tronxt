@@ -54,17 +54,20 @@ class MainWindow(QtGui.QWidget):
 		self.resize(250,75)
 
 		self._btc.transmit('s')
+		if self._btc.recieve() == 'o':
+			print "Startup successfull"
 
 	def __del__(self):
 		self._btc.transmit('q')
+		print "Sending end command"
 
 	def transmitL(self):
 		self._btc.transmit('l')
-		print 'l',
+		print 'l'
 
 	def transmitR(self):
 		self._btc.transmit('r')
-		print 'r',
+		print 'r'
 	
 	def keyPressEvent(self,event):
 		print 'Got Key?'

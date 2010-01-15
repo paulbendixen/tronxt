@@ -103,7 +103,6 @@
 				<pathelement location="${nxj.bluecove-gpl.jar}" />
 			</classpath>
 		</java>
-		<java jar="${jarfile}" fork="true" />
 	</target>
 
 	<target name="run" depends="link" description="run the pc program">
