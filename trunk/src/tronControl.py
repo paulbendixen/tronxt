@@ -63,14 +63,14 @@ class MainWindow(QtGui.QWidget):
 
 	def transmitL(self):
 		self._btc.transmit('l')
-		print 'l'
+		#print 'l'
 
 	def transmitR(self):
 		self._btc.transmit('r')
-		print 'r'
+		#print 'r'
 	
 	def keyPressEvent(self,event):
-		print 'Got Key?'
+		#print 'Got Key?'
 		if event.key() == QtCore.Qt.Key_Left:
 			#Call the left button function
 			self.emit(QtCore.SIGNAL('leftPress()'))
