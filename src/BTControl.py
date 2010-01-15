@@ -38,14 +38,20 @@ class BTControl:
 	def connect(self,address):
 		"""Will try to connect to the given address, using an RFCOMM socket"""
 		self._sock = BluetoothSocket(RFCOMM)
-		if (self._sock.connect((address,1))):
-			self._connected = true
+		self._sock.connect((address,1))
+		#If the socket connect fails, it will raise an error and terminate
+		self._connected = True
 		
 	
 	def transmit(self,char):
 		"""If a successfull connect has been executed will send one char over the RFCOMM socket"""
 		if len(char) == 1 and self._connected == True:
 			self._sock.send(char)
+
+	def recieve(self):
+		"""If a successfull connect has been executed will recieve one char over the RFCOMM socket"""
+		if self._connected == True:
+			return self._sock.recv(1)
 
 	def __del__(self):
 		if self._connected:
@@ -81,6 +87,6 @@ The name should not have any ":" in it
 				print "No bluetooth device found with name ", sys.argv[1]
 				sys.exit()
 
-	for c in ('a','b','c','q'):
+	for c in ('s','l','r','q'):
 		btc.transmit(c)
 
