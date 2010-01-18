@@ -1,5 +1,6 @@
 package tronxt.nxt;
 
+import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import tronxt.core.*;
 
@@ -24,6 +25,21 @@ public class CPUControlledPlayer extends AbstractPlayer {
 		};
 		
 		detector = new WallDetector(SensorPort.S4, handler);
+	}
+	
+	@Override
+	public void register() {}
+	
+	@Override
+	public void die() {
+		detector.interrupt();
+		super.die();
+	}
+	
+	@Override
+	public void win() {
+		detector.interrupt();
+		super.win();
 	}
 	
 	public void start() {

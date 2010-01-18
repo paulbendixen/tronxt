@@ -27,6 +27,11 @@ public class BTControlledPlayer extends AbstractPlayer {
 				LCD.drawString("Turning right", 0, 0);
 				bike.turnRight();
 				break;
+			case 'w': //Win game
+				win();
+				register();
+				start();
+				break;
 			case 'q': //Quit game
 				LCD.drawString("Exiting", 0, 0);
 				conn.close();

@@ -1,5 +1,6 @@
 package tronxt.core;
 
+import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Sound;
 import lejos.nxt.comm.BTConnection;
@@ -57,44 +58,66 @@ public abstract class AbstractPlayer implements Player {
 	@Override
 	public void die()
 	{
+		if (conn != null) {
+			conn.write(new byte[] {'d'}, 1);
+			conn.close();
+		}
+
+		bike.stop();
+
 		LCD.clearDisplay();
 		LCD.drawString("DD  EEE AAAA DD ", 0, 0);
 		LCD.drawString("D D E   A  A D D", 0, 1);
-		LCD.drawString("D D E   A  A D D", 0, 2);
+		LCD.drawString("D D EE  AAAA D D", 0, 2);
 		LCD.drawString("D D EE  AAAA D D", 0, 3);
-		LCD.drawString("D D EE  AAAA D D", 0, 4);
-		LCD.drawString("D D E   A  A D D", 0, 5);
-		LCD.drawString("D D E   A  A D D", 0, 6);
-		LCD.drawString("DD  EEE A  A DD ", 0, 7);
+		LCD.drawString("D D E   A  A D D", 0, 4);
+		LCD.drawString("DD  EEE A  A DD ", 0, 5);
+		LCD.drawString("                ", 0, 6);
+		LCD.drawString("ENTER to restart", 0, 7);
 		
-		conn.write(new byte[] {'d'}, 1);
-		
+
 		// Play music, non blocking
-		for (int i = 0; i < 4; i++)
-		{
-			bike.turnRight();
-		}
-		bike.stop();
+		Sound.playNote(Sound.FLUTE, 440, 100);
+		Sound.playNote(Sound.FLUTE, 420, 100);
+		Sound.playNote(Sound.FLUTE, 400, 100);
+		Sound.playNote(Sound.FLUTE, 380, 100);
+		Sound.playNote(Sound.FLUTE, 360, 100);
+		Sound.playNote(Sound.FLUTE, 340, 100);
+		Sound.playNote(Sound.FLUTE, 320, 100);
+		Sound.playNote(Sound.FLUTE, 300, 500);
+		
+		Button.ENTER.waitForPressAndRelease();
 	}
 	
 	@Override
 	public void win()
 	{
+		if (conn != null) {
+			conn.write(new byte[] {'d'}, 1);
+			conn.close();
+		}
+
 		bike.stop();
 
 		LCD.clearDisplay();
 		LCD.drawString("W  W  W III N  N", 0, 0);
 		LCD.drawString("W  W  W  I  N  N", 0, 1);
 		LCD.drawString("W  W  W  I  NN N", 0, 2);
-		LCD.drawString("W  W  W  I  NN N", 0, 3);
-		LCD.drawString("W  W  W  I  N NN", 0, 4);
-		LCD.drawString("W  W  W  I  N NN", 0, 5);
-		LCD.drawString(" W W W   I  N  N", 0, 6);
-		LCD.drawString("  W W   III N  N", 0, 7);
-
+		LCD.drawString("W  W  W  I  N NN", 0, 3);
+		LCD.drawString(" W W W   I  N  N", 0, 4);
+		LCD.drawString("  W W   III N  N", 0, 5);
+		LCD.drawString("                ", 0, 6);
+		LCD.drawString("ENTER to restart", 0, 7);
+		
 		// Play victory music
-		Sound.playNote(Sound.FLUTE, 500, 1000);
-		Sound.playNote(Sound.FLUTE, 700, 1000);
-		Sound.playNote(Sound.FLUTE, 900, 1000);
+		Sound.playNote(Sound.FLUTE, 320, 100);
+		Sound.playNote(Sound.FLUTE, 340, 100);
+		Sound.playNote(Sound.FLUTE, 360, 100);
+		Sound.playNote(Sound.FLUTE, 380, 100);
+		Sound.playNote(Sound.FLUTE, 400, 100);
+		Sound.playNote(Sound.FLUTE, 420, 100);
+		Sound.playNote(Sound.FLUTE, 440, 100);
+		
+		Button.ENTER.waitForPressAndRelease();
 	}
 }
