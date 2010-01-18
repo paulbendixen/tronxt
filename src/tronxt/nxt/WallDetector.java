@@ -48,7 +48,9 @@ public class WallDetector extends Thread {
 	}
 	
 	public void run() {
-		while (lightSensor.getLightValue() > threshold);
-		handler.tronBikeCrashed();
+		while (true) {
+			while (lightSensor.getLightValue() > threshold);
+			handler.tronBikeCrashed();
+		}
 	}
 }

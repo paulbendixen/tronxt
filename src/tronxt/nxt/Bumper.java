@@ -16,7 +16,9 @@ public class Bumper extends Thread {
 	
 	public void run()
 	{
-		while (!touchLeft.isPressed() && !touchRight.isPressed()) ;
-		handler.tronBikeCrashed();
+		while (true) {
+			while (!touchLeft.isPressed() && !touchRight.isPressed()) ;
+			handler.tronBikeCrashed();
+		}
 	}
 }

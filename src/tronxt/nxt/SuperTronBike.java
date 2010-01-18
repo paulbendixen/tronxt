@@ -5,11 +5,7 @@ import lejos.nxt.*;
 
 public class SuperTronBike implements TronBike {
 
-	//180 == 8/7
-	//180/8 = 22,5
-	//22,5*7 = 90+45+22,5 = 135+22,5 = 157,5
-	
-	private static final int ROTATE_ANGLE = 158; //180
+	private static final int ROTATE_ANGLE = 158;
 	private static final int POWER = 100;
 	
 	private Motor motorRight = Motor.A;
@@ -23,6 +19,8 @@ public class SuperTronBike implements TronBike {
 			@Override
 			public void tronBikeCrashed() {
 				player.die();
+				player.register();
+				player.start();
 			}
 		};
 		bumper = new Bumper(SensorPort.S1, SensorPort.S2, handler);
@@ -35,6 +33,7 @@ public class SuperTronBike implements TronBike {
 	public void start() {
 		bumper.start();
 		wallDetector.start();
+		
 		forward();
 	}
 	
