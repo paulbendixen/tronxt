@@ -7,6 +7,7 @@ public class WallDetector extends Thread {
 	private LightSensor lightSensor;
 	private CrashHandler handler;
 	private int threshold;
+	private boolean runnable = false;
 	
 	public WallDetector(SensorPort lightSensorPort, CrashHandler handler) {
 		lightSensor = new LightSensor(lightSensorPort);
@@ -47,10 +48,18 @@ public class WallDetector extends Thread {
 		Button.ENTER.waitForPressAndRelease();
 	}
 	
+	public void stop() {
+		runnable = false;
+	}
+	
+	public void begin() {
+		runnable = true;
+	}
+	
 	public void run() {
 		while (true) {
 			while (lightSensor.getLightValue() > threshold);
-			handler.tronBikeCrashed();
+			if (runnable) handler.tronBikeCrashed();
 		}
 	}
 }

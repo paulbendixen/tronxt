@@ -56,14 +56,33 @@ public abstract class AbstractPlayer implements Player {
 	}
 	
 	@Override
+	public void start() {
+		Sound.beep();
+	}
+	
+	@Override
 	public void die()
 	{
+		bike.stop();
+
 		if (conn != null) {
 			conn.write(new byte[] {'d'}, 1);
-			conn.close();
-		}
 
-		bike.stop();
+			byte[] buffer = new byte[1];
+			conn.read(buffer, 1);
+			conn.close();
+			
+			switch(buffer[0]) {
+			case 'w':
+				win();
+				return;
+			case 'd':
+				break;
+			default:
+				LCD.drawChar((char)buffer[0],0,0,false);
+			}
+			
+		}
 
 		LCD.clearDisplay();
 		LCD.drawString("DD  EEE AAAA DD ", 0, 0);
@@ -92,13 +111,6 @@ public abstract class AbstractPlayer implements Player {
 	@Override
 	public void win()
 	{
-		if (conn != null) {
-			conn.write(new byte[] {'d'}, 1);
-			conn.close();
-		}
-
-		bike.stop();
-
 		LCD.clearDisplay();
 		LCD.drawString("W  W  W III N  N", 0, 0);
 		LCD.drawString("W  W  W  I  N  N", 0, 1);
