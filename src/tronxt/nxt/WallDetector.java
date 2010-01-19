@@ -16,7 +16,9 @@ public class WallDetector extends Thread {
 	}
 	
 	private void configure() {
-		LCD.clearDisplay();
+		Sound.pause(100);
+		threshold = lightSensor.getLightValue() - 2;
+/*		LCD.clearDisplay();
 		LCD.drawString("Configure light:", 0, 0);
 		LCD.drawString("Place sensor on ", 0, 2);
 		LCD.drawString("a white surface ", 0, 3);
@@ -33,6 +35,7 @@ public class WallDetector extends Thread {
 		LCD.drawString("ENTER           ", 0, 4);
 		Button.ENTER.waitForPressAndRelease();
 		int lineValue = lightSensor.getLightValue();
+		int lineValue = whiteValue - 2;
 		
 		threshold = ((whiteValue - lineValue) / 2) + lineValue;
 		
@@ -45,7 +48,7 @@ public class WallDetector extends Thread {
 		LCD.drawString("Threshold:", 0, 3);
 		LCD.drawInt(threshold, 13, 3);
 		LCD.drawString("Press ENTER     ", 0, 5);
-		Button.ENTER.waitForPressAndRelease();
+		Button.ENTER.waitForPressAndRelease();*/
 	}
 	
 	public void stop() {

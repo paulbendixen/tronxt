@@ -14,32 +14,23 @@ public class BTControlledPlayer extends AbstractPlayer {
 		super.start();
 		bike.start();
 		
+		LCD.clearDisplay();
+		
 		byte[] buffer = new byte[1];
 		while (true) {
 			conn.read(buffer, 1);
-			LCD.clearDisplay();
 			
 			switch(buffer[0]) {
-			case 'l': //Turn left
-				LCD.drawString("Turning left", 0, 0);
+			case 'l':
 				bike.turnLeft();
 				break;
-			case 'r': //Turn right
-				LCD.drawString("Turning right", 0, 0);
+			case 'r':
 				bike.turnRight();
 				break;
-			case 'w': //Win game
-				win();
-				register();
-				start();
-				break;
 			case 'q': //Quit game
-				LCD.drawString("Exiting", 0, 0);
 				conn.close();
 				System.exit(0);
 			}
-			
-			conn.write(new byte[] {'o'}, 1);
 		}
 	}
 }

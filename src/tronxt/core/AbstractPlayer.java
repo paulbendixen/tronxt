@@ -69,19 +69,18 @@ public abstract class AbstractPlayer implements Player {
 			conn.write(new byte[] {'d'}, 1);
 
 			byte[] buffer = new byte[1];
-			conn.read(buffer, 1);
-			conn.close();
-			
-			switch(buffer[0]) {
-			case 'w':
-				win();
-				return;
-			case 'd':
-				break;
-			default:
-				LCD.drawChar((char)buffer[0],0,0,false);
+			while (buffer[0] != 'd') {
+				conn.read(buffer, 1);
+				switch(buffer[0]) {
+				case 'w':
+					conn.close();
+					win();
+					return;
+				case 'd':
+					conn.close();
+					break;
+				}
 			}
-			
 		}
 
 		LCD.clearDisplay();
