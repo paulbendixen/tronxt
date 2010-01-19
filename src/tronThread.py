@@ -38,7 +38,7 @@ class TronThread(Thread):
 				TronThread.trons -= 1
 				self.got = TronThread.trons
 				TronThread.tronsLock.release()
-				print self.getName() + str(self.got) +" trons left on the wall"
+				print self.getName() + " " + str(self.got) +" trons left on the wall"
 				if self.got == 0:
 					self.btc.transmit('w')
 				else:

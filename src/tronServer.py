@@ -37,13 +37,13 @@ for cpu in xrange(noPlayers-1):
 		nxts.pop(zip(*nxts)[0].index(cpuaddress))
 		# pops the index selected by, after unzipping, looking for the address
 	else:
-		QtGui.QMessageBox.warning(self,"No Selected NXTs","No Opponent selected. There will be one less opponent than wanted")
+		QtGui.QMessageBox.warning(None,"No Selected NXTs","No Opponent selected. There will be one less opponent than wanted")
 
 playerSel = BTSelect.BTSelect(nxts,"Select your TroNXT")
 if playerSel.exec_():
 	address = str(playerSel.address())
 else:
-	QtGui.QMessageBox.warning(self,"No Selected NXTs","No address selected, program will be shut down")
+	QtGui.QMessageBox.warning(None,"No Selected NXTs","No address selected, program will be shut down")
 	sys.exit(-1)
 
 
