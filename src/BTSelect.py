@@ -10,10 +10,10 @@ class BTSelect(QtGui.QDialog):
 	"""GUI for selecting NXTs, the items parameter should be a list of touples,
 	containing addresses in the first entry and names in the second
 	If accepted the address of the selected NXT can be found using the self.address() function"""
-	def __init__(self,items = [()],parent = None):
+	def __init__(self,items = [()],title ='Select NXT', parent = None):
 		QtGui.QDialog.__init__(self,parent)
 
-		self.setWindowTitle('Select NXT')
+		self.setWindowTitle(title)
 
 		self.retval = ""
 		self._items = items

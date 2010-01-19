@@ -10,31 +10,22 @@ from PyQt4 import QtCore
 from BTControl import *
 from BTSelect import *
 
-class MainWindow(QtGui.QWidget):
+class ControlWindow(QtGui.QWidget):
 	_btc = None
-	def __init__(self,address = None, parent = None):
+	def __init__(self,address = '', parent = None):
 		QtGui.QWidget.__init__(self,parent)
 
-		self._btc = BTControl()
-		if address == None:
-			bts = BTSearch()
-			nxts = bts.search()
-			btsel = BTSelect(nxts)
-			if btsel.exec_():
-				address = str(btsel.address())
-			else:
-				QtGui.QMessageBox.warning(self,"No Selected NXTs","No address selected, program will be shut down")
-				sys.exit(-1)
+		if isinstance(address,BTControl):
+			self._btc = address
+		else:
+			self._btc = BTControl(address)
 
-
-
-		self._btc = BTControl(address)
 		self.setWindowTitle('TroNXT')
 
 		left = QtGui.QPushButton('Left')
-		left.setFocusPolicy(QtCore.Qt.ClickFocus)
+		left.setFocusPolicy(QtCore.Qt.NoFocus)
 		right = QtGui.QPushButton('Right')
-		right.setFocusPolicy(QtCore.Qt.ClickFocus)
+		right.setFocusPolicy(QtCore.Qt.NoFocus)
 		label = QtGui.QLabel("Use arrow keys to control the bike")
 
 		self.connect(self,QtCore.SIGNAL('leftPress()'),self.transmitL)
@@ -53,13 +44,14 @@ class MainWindow(QtGui.QWidget):
 		self.setLayout(vbox)
 		self.resize(250,75)
 
-		self._btc.transmit('s')
-		if self._btc.recieve() == 'o':
-			print "Startup successfull"
+		#self._btc.transmit('s')
+		#if self._btc.recieve() == 'o':
+		#	print "Startup successfull"
 
 	def __del__(self):
-		self._btc.transmit('q')
-		print "Sending end command"
+		pass
+		#self._btc.transmit('q')
+		#print "Sending end command"
 
 	def transmitL(self):
 		self._btc.transmit('l')
@@ -87,6 +79,17 @@ if __name__ == "__main__":
 		address = None
 	else:
 		address = sys.argv[1]
-	qb = MainWindow(address)
+
+	if address == None:
+		bts = BTSearch()
+		nxts = bts.search()
+		btsel = BTSelect(nxts)
+		if btsel.exec_():
+			address = str(btsel.address())
+		else:
+			QtGui.QMessageBox.warning(self,"No Selected NXTs","No address selected, program will be shut down")
+			sys.exit(-1)
+
+	qb = ControlWindow(address)
 	qb.show()
 	sys.exit(app.exec_())
