@@ -12,6 +12,7 @@ public class SuperTronBike implements TronBike {
 	private Motor motorLeft = Motor.B;
 	private Bumper bumper;
 	private WallDetector wallDetector;
+	private boolean stopped = true;
 	
 	public SuperTronBike(final Player player) {
 		CrashHandler handler = new CrashHandler() {
@@ -24,41 +25,55 @@ public class SuperTronBike implements TronBike {
 			}
 		};
 		bumper = new Bumper(SensorPort.S1, SensorPort.S2, handler);
+		bumper.start();
 		wallDetector = new WallDetector(SensorPort.S3, handler);
+		wallDetector.start();
 		
 		motorRight.setPower(POWER);
 		motorLeft.setPower(POWER);
 	}
 
 	public void start() {
-		bumper.start();
-		wallDetector.start();
+		stopped = false;
+		bumper.begin();
+		wallDetector.begin();
 		
 		forward();
 	}
 	
 	private void forward() {
-		motorRight.forward();
-		motorLeft.forward();
+		if (!stopped) {
+			motorRight.forward();
+			motorLeft.forward();
+		}
 	}
 
 	public void stop() {
-		bumper.interrupt();
-		wallDetector.interrupt();
+		stopped = true;
+		bumper.stop();
+		wallDetector.stop();
 		
 		motorRight.stop();
 		motorLeft.stop();
 	}
-
-	public void turnLeft() {
-		motorRight.rotate(ROTATE_ANGLE, true);
-		motorLeft.rotate(-ROTATE_ANGLE);
-		forward();
+	
+	public int getTachoCount() {
+		return (motorLeft.getTachoCount() + motorRight.getTachoCount()) / 2;
 	}
 
-	public void turnRight() {
-		motorLeft.rotate(ROTATE_ANGLE, true);
-		motorRight.rotate(-ROTATE_ANGLE);
-		forward();
+	public synchronized void turnLeft() {
+		if (!stopped) {
+			motorRight.rotate(ROTATE_ANGLE, true);
+			motorLeft.rotate(-ROTATE_ANGLE);
+			forward();
+		}
+	}
+
+	public synchronized void turnRight() {
+		if (!stopped) {
+			motorLeft.rotate(ROTATE_ANGLE, true);
+			motorRight.rotate(-ROTATE_ANGLE);
+			forward();
+		}
 	}
 }

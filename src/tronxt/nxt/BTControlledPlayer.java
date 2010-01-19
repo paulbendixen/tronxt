@@ -11,6 +11,7 @@ public class BTControlledPlayer extends AbstractPlayer {
 	}
 	
 	public void start() {
+		super.start();
 		bike.start();
 		
 		byte[] buffer = new byte[1];

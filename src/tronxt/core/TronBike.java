@@ -20,4 +20,10 @@ public interface TronBike {
 	 * Makes the bike turn right.
 	 */
 	void turnRight();
+	
+	/**
+	 * 
+	 */
+	int getTachoCount();
+	
 }
