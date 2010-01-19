@@ -34,9 +34,6 @@ public class RandomCPUControlledPlayer extends AbstractPlayer {
 	}
 	
 	@Override
-	public void register() {}
-	
-	@Override
 	public void die() {
 		stopped = true;
 		detector.stop();

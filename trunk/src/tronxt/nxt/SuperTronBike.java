@@ -5,7 +5,7 @@ import lejos.nxt.*;
 
 public class SuperTronBike implements TronBike {
 
-	private static final int ROTATE_ANGLE = 158;
+	private static final int ROTATE_ANGLE = 157;
 	private static final int POWER = 100;
 	
 	private Motor motorRight = Motor.A;
