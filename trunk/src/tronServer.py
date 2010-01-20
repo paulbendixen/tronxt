@@ -9,22 +9,62 @@ import tronControl
 import tronThread
 import sys
 from PyQt4 import QtGui
+import os
+import ConfigParser
+
+usage= """Use the program in the following way:
+""" + sys.argv[0] + """ [c] [p Players]
+Where c assigns a .tronxt setting file in your homedirectory for storing information,
+if the file is available, the data present will be used, otherwise search results will be stored.
+p assigns how many players (including the human player) should join - default is 2.
+"""
 
 cpus = []
+nxts=[]
+cp = None
 app = QtGui.QApplication(sys.argv)
 
 # Get number of players as 1st argument
 noPlayers = 2
 if len(sys.argv) > 1:
-	if isinstance(sys.argv[1], (int,long)):
-		noPlayers = sys.argv[1]
+	if 'p' in sys.argv:
+		try:
+			noPlayers = int(sys.argv[sys.argv.index('p')+1])
+			print "Number of players = " + str(noPlayers)
+		except IndexError:
+			print usage
+			exit(-1)
+		except TypeError:
+			print usage
+			exit(-1)
+		except ValueError:
+			print usage
+			print "Invalid number used for p parameter, will continue with 2."
+			noPlayers = 2
 
-# See if the number of adresses match in order to cut away the wait for a scan
-# LATER if len(sys.argv) >= (noPlayers+2):
+	if 'c' in sys.argv:
+		cp = ConfigParser.RawConfigParser()
+		if cp.read(os.path.expanduser('~/.tronxt')) == []:
+			print "No configuration file found, will store scan in " + os.path.expanduser('~/.tronxt')
+		
 
-# Create a scan list to select players from
-btUnits = BTControl.BTSearch()
-nxts = btUnits.search()
+if cp == None:
+	# Create a scan list to select players from
+	btUnits = BTControl.BTSearch()
+	nxts = btUnits.search()
+else:
+	if cp.sections() == []:
+		btUnits = BTControl.BTSearch()
+		nxts = btUnits.search()
+		cp.add_section('Bluetooth')
+		for address,name in nxts:
+			cp.set('Bluetooth',name,address)
+		with open(os.path.expanduser('~/.tronxt'),'wb')as fil:
+			cp.write(fil)
+	else:
+		data = cp.options('Bluetooth')
+		for entry in data:
+			nxts.append((cp.get('Bluetooth',entry),entry))
 
 for cpu in xrange(noPlayers-1):
 	#create a cpucontrolled player thread
